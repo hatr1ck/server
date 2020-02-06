@@ -16,18 +16,10 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
     next();
 });
-
-app.use(bodyParser.json())
-var server = app.listen(4000, ()=>{
-    console.log('server is up on 4000')
+app.get('/testing', (req,res)=>{
+    res.send('hello')
 })
-app.use(express.static(path.join(__dirname, 'public')));
-const io = require('socket.io').listen(server);
-io.on('connection', (socket) => {
-    socket.on('chat', (data) => {
-        io.sockets.emit('chat', data)
-    })
-    socket.on('typing', (data) => {
-        socket.broadcast.emit('typing', data)
-    })
+app.use(bodyParser.json())
+app.listen(4000, ()=>{
+    console.log('server is up on 4000')
 })
